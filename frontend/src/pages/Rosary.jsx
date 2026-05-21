@@ -308,7 +308,7 @@ function WelcomeScreen({ mysteryInfo, dayName, onStart }) {
         className="text-xs sm:text-sm uppercase tracking-[0.4em] text-[#D4AF37] mb-4"
         style={{ fontFamily: "'Work Sans', sans-serif" }}
       >
-        {dayName} · Día de los {mysteryInfo.name.replace("Misterios ", "")}
+        {dayName} · Día de los misterios {mysteryInfo.name.replace("Misterios ", "")}
       </p>
       <h2
         className="text-4xl sm:text-5xl lg:text-6xl font-light text-[#F8F3E6] mb-6 leading-tight"
@@ -395,13 +395,7 @@ function ProgressBar({ step, total, currentStep, progress }) {
         >
           {decadeLabel}
         </p>
-        <p
-          className="text-xs uppercase tracking-[0.2em] text-[#A1A7B3]"
-          style={{ fontFamily: "'Work Sans', sans-serif" }}
-          data-testid="progress-count"
-        >
-          Paso {step + 1} / {total}
-        </p>
+
       </div>
       <div className="h-[2px] w-full bg-[#D4AF37]/10 rounded-full overflow-hidden">
         <div

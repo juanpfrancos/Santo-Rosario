@@ -7,12 +7,12 @@
   "private": false,
   "repository": {
     "type": "git",
-    "url": "https://github.com/juanpfrancos/santo-rosario.git"
+    "url": "https://github.com/juanpfrancos/Santo-Rosario.git"
   },
   "bugs": {
-    "url": "https://github.com/juanpfrancos/santo-rosario/issues"
+    "url": "https://github.com/juanpfrancos/Santo-Rosario/issues"
   },
-  "homepage": "https://juanpfrancos.github.io/santo-rosario",
+  "homepage": "https://juanpfrancos.github.io/Santo-Rosario",
   "keywords": [
     "rosario",
     "catholic",
