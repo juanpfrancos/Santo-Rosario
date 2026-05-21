@@ -1,0 +1,122 @@
+{
+  "theme": "dark",
+  "archetype": "Jewel & Luxury",
+  "emotional_tone": "Reverent, sacred, peaceful, immersive",
+  "colors": {
+    "background": {
+      "base": "#0A0E17",
+      "surface": "#151B26",
+      "overlay": "rgba(10, 14, 23, 0.85)"
+    },
+    "primary": {
+      "gold": "#D4AF37",
+      "light_gold": "#F3E5AB",
+      "dark_gold": "#997A15"
+    },
+    "text": {
+      "primary": "#F8F3E6",
+      "secondary": "#A1A7B3",
+      "accent": "#D4AF37"
+    },
+    "beads": {
+      "active": "#D4AF37",
+      "inactive": "#2A3546",
+      "completed": "#7A6522",
+      "our_father": "#E5C158"
+    }
+  },
+  "typography": {
+    "fonts": {
+      "headings": "'Cormorant Garamond', serif",
+      "body": "'Lora', serif",
+      "ui": "'Work Sans', sans-serif"
+    },
+    "sizes": {
+      "h1": "text-4xl sm:text-5xl tracking-tight",
+      "h2": "text-2xl sm:text-3xl",
+      "h3": "text-xl sm:text-2xl",
+      "body": "text-lg sm:text-xl leading-relaxed",
+      "caption": "text-sm tracking-widest uppercase"
+    },
+    "weights": {
+      "light": "font-light",
+      "normal": "font-normal",
+      "medium": "font-medium",
+      "semibold": "font-semibold"
+    }
+  },
+  "layout_and_spacing": {
+    "container": "max-w-4xl mx-auto px-6 sm:px-12 py-12",
+    "section_gap": "gap-12 sm:gap-16",
+    "alignment": "text-center central-focus",
+    "glassmorphism": "backdrop-blur-xl bg-[#0A0E17]/60 border border-white/5 shadow-[0_8px_32px_rgba(0,0,0,0.4)] rounded-2xl p-8"
+  },
+  "components": {
+    "rosary_visualization": {
+      "type": "svg_or_absolute_divs",
+      "description": "A circular or elliptical layout of 50 small beads (Hail Mary) grouped in 5 decades, separated by slightly larger beads (Our Father). The current active bead glows.",
+      "active_state": "scale-125 shadow-[0_0_15px_#D4AF37] bg-[#D4AF37]",
+      "inactive_state": "scale-100 opacity-40 bg-[#2A3546]"
+    },
+    "prayer_card": {
+      "type": "glass_card",
+      "classes": "backdrop-blur-xl bg-black/40 border border-[#D4AF37]/20 rounded-2xl p-8 sm:p-12 min-h-[300px] flex flex-col justify-center items-center relative overflow-hidden",
+      "text_classes": "text-[#F8F3E6] font-serif text-xl sm:text-2xl leading-relaxed text-center"
+    },
+    "controls": {
+      "description": "Floating action buttons for Music Toggle, Restart, and Settings/Info.",
+      "button_style": "text-[#A1A7B3] hover:text-[#D4AF37] transition-colors p-3 rounded-full hover:bg-white/5"
+    },
+    "progress_indicator": {
+      "description": "Subtle text showing e.g. 'Misterio 1 de 5 - Cuenta 3 de 10'",
+      "classes": "text-sm text-[#D4AF37] uppercase tracking-[0.2em] font-sans mb-4"
+    }
+  },
+  "interactions": {
+    "keyboard": {
+      "Enter": "Advance to the next step/prayer in the sequence."
+    },
+    "animations": {
+      "bead_transition": "transition-all duration-500 ease-in-out",
+      "text_fade": "framer-motion opacity animate-in fade-in duration-700",
+      "pulse": "animate-pulse on active bead"
+    }
+  },
+  "logic": {
+    "mysteries_mapping": {
+      "Sunday": "Gloriosos",
+      "Monday": "Gozosos",
+      "Tuesday": "Dolorosos",
+      "Wednesday": "Gloriosos",
+      "Thursday": "Luminosos",
+      "Friday": "Dolorosos",
+      "Saturday": "Gozosos"
+    },
+    "sequence": [
+      "Sign of the Cross",
+      "Apostles' Creed",
+      "Our Father",
+      "3x Hail Mary",
+      "Glory Be",
+      "Mystery 1: Announce + Our Father",
+      "10x Hail Mary (Decade 1)",
+      "Glory Be & Fatima Prayer",
+      "Mystery 2: Announce + Our Father",
+      "10x Hail Mary (Decade 2)",
+      "Glory Be & Fatima Prayer",
+      "Mystery 3: Announce + Our Father",
+      "10x Hail Mary (Decade 3)",
+      "Glory Be & Fatima Prayer",
+      "Mystery 4: Announce + Our Father",
+      "10x Hail Mary (Decade 4)",
+      "Glory Be & Fatima Prayer",
+      "Mystery 5: Announce + Our Father",
+      "10x Hail Mary (Decade 5)",
+      "Glory Be & Fatima Prayer",
+      "Hail Holy Queen (Salve)"
+    ]
+  },
+  "testing": {
+    "data_testid_requirements": "All interactive elements, including the audio toggle, next button (if present for mobile), bead elements, and current prayer text container must have a `data-testid` attribute for automated testing."
+  }
+}
