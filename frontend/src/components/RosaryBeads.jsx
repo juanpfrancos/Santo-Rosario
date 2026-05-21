@@ -83,7 +83,7 @@ export const RosaryBeads = ({ activeBead, currentStep, sequence }) => {
   return (
     <svg
       viewBox={`0 0 ${VIEW_W} ${VIEW_H}`}
-      className="w-full h-full max-h-[70vh] mx-auto drop-shadow-[0_0_30px_rgba(212,175,55,0.15)]"
+      className="w-full h-full max-h-[55vh] sm:max-h-[65vh] lg:max-h-[70vh] mx-auto drop-shadow-[0_0_30px_rgba(212,175,55,0.15)]"
       data-testid="rosary-svg"
     >
       <defs>

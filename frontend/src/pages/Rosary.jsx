@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useRef, useMemo } from "react";
-import { Volume2, VolumeX, RotateCcw, ArrowRight, Info, Sparkles } from "lucide-react";
+import { Volume2, VolumeX, RotateCcw, Info, Sparkles } from "lucide-react";
 import { Button } from "../components/ui/button";
 import {
   Dialog,
@@ -147,18 +147,18 @@ export default function Rosary() {
 
       <div className="relative z-10 min-h-screen flex flex-col">
         {/* Header */}
-        <header className="flex items-center justify-between px-6 sm:px-10 py-6">
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#F3E5AB] to-[#997A15] shadow-[0_0_20px_rgba(212,175,55,0.5)]" />
+        <header className="flex items-center justify-between px-4 sm:px-10 py-3 sm:py-6">
+          <div className="flex items-center gap-2 sm:gap-3">
+            <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-gradient-to-br from-[#F3E5AB] to-[#997A15] shadow-[0_0_20px_rgba(212,175,55,0.5)]" />
             <div className="flex flex-col">
               <h1
-                className="font-serif text-xl sm:text-2xl tracking-wide text-[#F8F3E6]"
+                className="font-serif text-base sm:text-2xl tracking-wide text-[#F8F3E6]"
                 style={{ fontFamily: "'Cormorant Garamond', serif" }}
               >
                 Santo Rosario
               </h1>
               <span
-                className="text-[10px] sm:text-xs uppercase tracking-[0.3em] text-[#D4AF37]"
+                className="text-[9px] sm:text-xs uppercase tracking-[0.2em] sm:tracking-[0.3em] text-[#D4AF37]"
                 style={{ fontFamily: "'Work Sans', sans-serif" }}
               >
                 {DAY_NAMES[today.getDay()]} · {mysteryInfo.name}
@@ -166,27 +166,27 @@ export default function Rosary() {
             </div>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1 sm:gap-2">
             <Button
               variant="ghost"
               size="icon"
               onClick={() => setMusicOn((m) => !m)}
-              className="text-[#A1A7B3] hover:text-[#D4AF37] hover:bg-white/5 rounded-full"
+              className="text-[#A1A7B3] hover:text-[#D4AF37] hover:bg-white/5 rounded-full w-8 h-8 sm:w-10 sm:h-10"
               data-testid="music-toggle-btn"
               title={musicOn ? "Silenciar música" : "Activar música"}
             >
-              {musicOn ? <Volume2 className="w-5 h-5" /> : <VolumeX className="w-5 h-5" />}
+              {musicOn ? <Volume2 className="w-4 h-4 sm:w-5 sm:h-5" /> : <VolumeX className="w-4 h-4 sm:w-5 sm:h-5" />}
             </Button>
             <Dialog open={showInfo} onOpenChange={setShowInfo}>
               <DialogTrigger asChild>
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="text-[#A1A7B3] hover:text-[#D4AF37] hover:bg-white/5 rounded-full"
+                  className="text-[#A1A7B3] hover:text-[#D4AF37] hover:bg-white/5 rounded-full w-8 h-8 sm:w-10 sm:h-10"
                   data-testid="info-btn"
                   title="Información"
                 >
-                  <Info className="w-5 h-5" />
+                  <Info className="w-4 h-4 sm:w-5 sm:h-5" />
                 </Button>
               </DialogTrigger>
               <DialogContent className="bg-[#0A0E17] border-[#D4AF37]/30 text-[#F8F3E6] max-w-lg">
@@ -206,7 +206,7 @@ export default function Rosary() {
                   style={{ fontFamily: "'Lora', serif" }}
                 >
                   <p>
-                    Presiona <kbd className="px-2 py-0.5 bg-[#D4AF37]/20 rounded border border-[#D4AF37]/40 text-[#D4AF37] mx-1">Enter</kbd>
+                    Toca en cualquier parte de la pantalla o presiona <kbd className="px-2 py-0.5 bg-[#D4AF37]/20 rounded border border-[#D4AF37]/40 text-[#D4AF37] mx-1">Enter</kbd>
                     para avanzar al siguiente paso del rezo.
                   </p>
                   <p>
@@ -227,17 +227,17 @@ export default function Rosary() {
               variant="ghost"
               size="icon"
               onClick={restart}
-              className="text-[#A1A7B3] hover:text-[#D4AF37] hover:bg-white/5 rounded-full"
+              className="text-[#A1A7B3] hover:text-[#D4AF37] hover:bg-white/5 rounded-full w-8 h-8 sm:w-10 sm:h-10"
               data-testid="restart-btn"
               title="Reiniciar"
             >
-              <RotateCcw className="w-5 h-5" />
+              <RotateCcw className="w-4 h-4 sm:w-5 sm:h-5" />
             </Button>
           </div>
         </header>
 
         {/* Main content */}
-        <main className="flex-1 flex flex-col items-center px-4 sm:px-6 pb-24">
+        <main className="flex-1 flex flex-col items-center px-4 sm:px-6 pb-6 sm:pb-24">
           {!started ? (
             <WelcomeScreen
               mysteryInfo={mysteryInfo}
@@ -247,10 +247,14 @@ export default function Rosary() {
           ) : completed ? (
             <CompletedScreen onRestart={restart} />
           ) : (
-            <div className="w-full max-w-7xl mx-auto grid lg:grid-cols-[minmax(0,420px)_1fr] gap-8 lg:gap-16 items-center mt-2 sm:mt-4">
+            <div 
+              className="w-full max-w-7xl mx-auto grid lg:grid-cols-[minmax(0,420px)_1fr] gap-6 lg:gap-16 items-start lg:items-center mt-2 sm:mt-4 cursor-pointer"
+              onClick={next}
+              data-testid="prayer-container"
+            >
               {/* Rosario visual */}
               <div className="order-2 lg:order-1 flex items-center justify-center">
-                <div className="w-full max-w-[380px]">
+                <div className="w-full max-w-[340px] sm:max-w-[380px]">
                   <RosaryBeads
                     activeBead={activeBead}
                     currentStep={stepIndex}
@@ -260,7 +264,7 @@ export default function Rosary() {
               </div>
 
               {/* Oración + progreso */}
-              <div className="order-1 lg:order-2 flex flex-col gap-6">
+              <div className="order-1 lg:order-2 flex flex-col gap-4 sm:gap-6">
                 <ProgressBar
                   step={stepIndex}
                   total={sequence.length}
@@ -268,26 +272,6 @@ export default function Rosary() {
                   progress={progress}
                 />
                 <PrayerCard step={currentStep} fadeKey={fadeKey} />
-                <div className="flex flex-col sm:flex-row items-center justify-between gap-3 px-1">
-                  <p
-                    className="text-xs uppercase tracking-[0.25em] text-[#A1A7B3]"
-                    style={{ fontFamily: "'Work Sans', sans-serif" }}
-                  >
-                    Presiona{" "}
-                    <kbd className="px-2 py-1 bg-[#D4AF37]/15 rounded border border-[#D4AF37]/40 text-[#D4AF37] mx-1 not-italic">
-                      Enter
-                    </kbd>{" "}
-                    para continuar
-                  </p>
-                  <Button
-                    onClick={next}
-                    className="bg-gradient-to-b from-[#D4AF37] to-[#997A15] text-[#0A0E17] hover:from-[#F3E5AB] hover:to-[#D4AF37] font-semibold rounded-full px-6 py-5 shadow-[0_4px_24px_rgba(212,175,55,0.35)] transition-all"
-                    data-testid="next-btn"
-                  >
-                    Continuar
-                    <ArrowRight className="w-4 h-4 ml-2" />
-                  </Button>
-                </div>
               </div>
             </div>
           )}
@@ -300,7 +284,8 @@ export default function Rosary() {
 function WelcomeScreen({ mysteryInfo, dayName, onStart }) {
   return (
     <div
-      className="flex flex-col items-center justify-center text-center max-w-2xl mx-auto mt-6 sm:mt-16 px-4 animate-fade-in"
+      className="flex flex-col items-center justify-center text-center max-w-2xl mx-auto mt-6 sm:mt-16 px-4 animate-fade-in cursor-pointer"
+      onClick={onStart}
       data-testid="welcome-screen"
     >
       <Sparkles className="w-10 h-10 text-[#D4AF37] mb-6 opacity-80" />
@@ -327,20 +312,19 @@ function WelcomeScreen({ mysteryInfo, dayName, onStart }) {
         <span className="text-[#D4AF37]">{mysteryInfo.name}</span>. Tómate un
         momento de silencio antes de comenzar.
       </p>
-      <Button
-        onClick={onStart}
-        className="bg-gradient-to-b from-[#D4AF37] to-[#997A15] text-[#0A0E17] hover:from-[#F3E5AB] hover:to-[#D4AF37] font-semibold rounded-full px-10 py-6 text-base shadow-[0_4px_24px_rgba(212,175,55,0.4)] transition-all"
-        data-testid="start-btn"
-      >
-        Comenzar el Rosario
-        <ArrowRight className="w-4 h-4 ml-2" />
-      </Button>
-      <p
-        className="mt-6 text-xs uppercase tracking-[0.3em] text-[#A1A7B3]/60"
-        style={{ fontFamily: "'Work Sans', sans-serif" }}
-      >
-        o presiona <span className="text-[#D4AF37]">Enter</span>
-      </p>
+      <div className="flex flex-col items-center gap-4">
+        <Button
+          onClick={(e) => {
+            e.stopPropagation();
+            onStart();
+          }}
+          className="bg-gradient-to-b from-[#D4AF37] to-[#997A15] text-[#0A0E17] hover:from-[#F3E5AB] hover:to-[#D4AF37] font-semibold rounded-full px-10 py-6 text-base shadow-[0_4px_24px_rgba(212,175,55,0.4)] transition-all"
+          data-testid="start-btn"
+        >
+          Comenzar el Rosario
+        </Button>
+        <div className="w-12 h-1 bg-[#D4AF37]/30 rounded-full animate-pulse" />
+      </div>
     </div>
   );
 }
@@ -412,7 +396,7 @@ function PrayerCard({ step, fadeKey }) {
   return (
     <div
       key={fadeKey}
-      className="backdrop-blur-xl bg-black/40 border border-[#D4AF37]/20 rounded-2xl p-6 sm:p-10 min-h-[300px] flex flex-col justify-center relative overflow-hidden shadow-[0_8px_40px_rgba(0,0,0,0.5)] animate-fade-in"
+      className="backdrop-blur-xl bg-black/40 border border-[#D4AF37]/20 rounded-2xl p-5 sm:p-10 min-h-[280px] sm:min-h-[300px] flex flex-col justify-center relative overflow-hidden shadow-[0_8px_40px_rgba(0,0,0,0.5)] animate-fade-in"
       data-testid="prayer-card"
     >
       {/* Esquinas decoradas */}
@@ -422,7 +406,7 @@ function PrayerCard({ step, fadeKey }) {
       <div className="absolute bottom-3 right-3 w-6 h-6 border-b border-r border-[#D4AF37]/40" />
 
       <h3
-        className="text-xl sm:text-2xl text-[#D4AF37] mb-2 text-center tracking-wide"
+        className="text-lg sm:text-2xl text-[#D4AF37] mb-2 text-center tracking-wide"
         style={{ fontFamily: "'Cormorant Garamond', serif" }}
         data-testid="prayer-title"
       >
@@ -430,19 +414,23 @@ function PrayerCard({ step, fadeKey }) {
       </h3>
       {step.subtitle && (
         <p
-          className="text-sm sm:text-base text-[#F3E5AB]/80 italic mb-5 text-center"
+          className="text-sm sm:text-base text-[#F3E5AB]/80 italic mb-4 sm:mb-5 text-center"
           style={{ fontFamily: "'Lora', serif" }}
         >
           {step.subtitle}
         </p>
       )}
       <p
-        className="text-base sm:text-lg leading-relaxed text-[#F8F3E6]/95 text-center"
+        className="text-sm sm:text-lg leading-relaxed text-[#F8F3E6]/95 text-center"
         style={{ fontFamily: "'Lora', serif" }}
         data-testid="prayer-text"
       >
         {step.content}
       </p>
+      {/* Indicador visual sutil para tap */}
+      <div className="mt-4 sm:mt-6 flex justify-center">
+        <div className="w-12 h-1 bg-[#D4AF37]/30 rounded-full animate-pulse" />
+      </div>
     </div>
   );
 }
