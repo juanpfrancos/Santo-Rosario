@@ -149,7 +149,6 @@ export default function Rosary() {
         {/* Header */}
         <header className="flex items-center justify-between px-4 sm:px-10 py-3 sm:py-6">
           <div className="flex items-center gap-2 sm:gap-3">
-            <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-gradient-to-br from-[#F3E5AB] to-[#997A15] shadow-[0_0_20px_rgba(212,175,55,0.5)]" />
             <div className="flex flex-col">
               <h1
                 className="font-serif text-base sm:text-2xl tracking-wide text-[#F8F3E6]"
