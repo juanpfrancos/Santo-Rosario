@@ -4,9 +4,12 @@ import { Toaster } from "./components/ui/sonner";
 import Rosary from "./pages/Rosary";
 
 function App() {
+  // En desarrollo usa "/", en producción usa el PUBLIC_URL de GitHub Pages
+  const basename = process.env.NODE_ENV === 'production' ? process.env.PUBLIC_URL : '/';
+  
   return (
     <div className="App">
-      <BrowserRouter>
+      <BrowserRouter basename={basename}>
         <Routes>
           <Route path="/" element={<Rosary />} />
         </Routes>
