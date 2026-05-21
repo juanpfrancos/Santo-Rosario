@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useRef, useMemo } from "react";
-import { Volume2, VolumeX, RotateCcw, Info, Sparkles } from "lucide-react";
+import { Volume2, VolumeX, RotateCcw, Info, Sparkles, Menu, Github, Instagram } from "lucide-react";
 import { Button } from "../components/ui/button";
 import {
   Dialog,
@@ -17,7 +17,7 @@ import {
   mysteries,
 } from "../lib/rosaryData";
 
-const BG_URL = process.env.PUBLIC_URL + "/assets/background.png";
+const BG_URL = process.env.PUBLIC_URL + "/assets/background.webp";
 
 // Música de fondo: Ave María de Fátima (Instrumental)
 const MUSIC_URL = process.env.PUBLIC_URL + "/assets/fatima-ave-maria.mp3";
@@ -45,6 +45,7 @@ export default function Rosary() {
   const [completed, setCompleted] = useState(false);
   const [musicOn, setMusicOn] = useState(false);
   const [showInfo, setShowInfo] = useState(false);
+  const [showMenu, setShowMenu] = useState(false);
   const [fadeKey, setFadeKey] = useState(0); // para re-trigger animación
 
   const audioRef = useRef(null);
@@ -81,7 +82,7 @@ export default function Rosary() {
   // Listener de tecla Enter (y Space + flecha derecha como apoyo)
   useEffect(() => {
     const handler = (e) => {
-      if (showInfo) return;
+      if (showInfo || showMenu) return;
       if (e.key === "Enter" || e.code === "Space" || e.key === "ArrowRight") {
         e.preventDefault();
         if (completed) return;
@@ -90,7 +91,7 @@ export default function Rosary() {
     };
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
-  }, [next, completed, showInfo]);
+  }, [next, completed, showInfo, showMenu]);
 
   // Control de música
   useEffect(() => {
@@ -146,97 +147,165 @@ export default function Rosary() {
       />
 
       <div className="relative z-10 min-h-screen flex flex-col">
-        {/* Header */}
-        <header className="flex items-center justify-between px-4 sm:px-10 py-3 sm:py-6">
-          <div className="flex items-center gap-2 sm:gap-3">
-            <div className="flex flex-col">
-              <h1
-                className="font-serif text-base sm:text-2xl tracking-wide text-[#F8F3E6]"
-                style={{ fontFamily: "'Cormorant Garamond', serif" }}
-              >
-                Santo Rosario
-              </h1>
-              <span
-                className="text-[9px] sm:text-xs uppercase tracking-[0.2em] sm:tracking-[0.3em] text-[#D4AF37]"
-                style={{ fontFamily: "'Work Sans', sans-serif" }}
-              >
-                {DAY_NAMES[today.getDay()]} · {mysteryInfo.name}
-              </span>
+        {/* Header - solo visible cuando no ha empezado o está completado */}
+        {(!started || completed) && (
+          <header className="flex items-center justify-between px-4 sm:px-10 py-3 sm:py-6">
+            <div className="flex items-center gap-2 sm:gap-3">
+              <div className="flex flex-col">
+                <h1
+                  className="font-serif text-base sm:text-2xl tracking-wide text-[#F8F3E6]"
+                  style={{ fontFamily: "'Cormorant Garamond', serif" }}
+                >
+                  Santo Rosario
+                </h1>
+                <span
+                  className="text-[9px] sm:text-xs uppercase tracking-[0.2em] sm:tracking-[0.3em] text-[#D4AF37]"
+                  style={{ fontFamily: "'Work Sans', sans-serif" }}
+                >
+                  {DAY_NAMES[today.getDay()]} · {mysteryInfo.name}
+                </span>
+              </div>
             </div>
-          </div>
 
-          <div className="flex items-center gap-1 sm:gap-2">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => setMusicOn((m) => !m)}
-              className="text-[#A1A7B3] hover:text-[#D4AF37] hover:bg-white/5 rounded-full w-8 h-8 sm:w-10 sm:h-10"
-              data-testid="music-toggle-btn"
-              title={musicOn ? "Silenciar música" : "Activar música"}
-            >
-              {musicOn ? <Volume2 className="w-4 h-4 sm:w-5 sm:h-5" /> : <VolumeX className="w-4 h-4 sm:w-5 sm:h-5" />}
-            </Button>
-            <Dialog open={showInfo} onOpenChange={setShowInfo}>
-              <DialogTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="text-[#A1A7B3] hover:text-[#D4AF37] hover:bg-white/5 rounded-full w-8 h-8 sm:w-10 sm:h-10"
-                  data-testid="info-btn"
-                  title="Información"
-                >
-                  <Info className="w-4 h-4 sm:w-5 sm:h-5" />
-                </Button>
-              </DialogTrigger>
-              <DialogContent className="bg-[#0A0E17] border-[#D4AF37]/30 text-[#F8F3E6] max-w-lg">
-                <DialogHeader>
-                  <DialogTitle
-                    className="text-2xl text-[#D4AF37]"
-                    style={{ fontFamily: "'Cormorant Garamond', serif" }}
+            <div className="flex items-center gap-1 sm:gap-2">
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setMusicOn((m) => !m)}
+                className="text-[#A1A7B3] hover:text-[#D4AF37] hover:bg-white/5 rounded-full w-8 h-8 sm:w-10 sm:h-10"
+                data-testid="music-toggle-btn"
+                title={musicOn ? "Silenciar música" : "Activar música"}
+              >
+                {musicOn ? <Volume2 className="w-4 h-4 sm:w-5 sm:h-5" /> : <VolumeX className="w-4 h-4 sm:w-5 sm:h-5" />}
+              </Button>
+              <Dialog open={showInfo} onOpenChange={setShowInfo}>
+                <DialogTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="text-[#A1A7B3] hover:text-[#D4AF37] hover:bg-white/5 rounded-full w-8 h-8 sm:w-10 sm:h-10"
+                    data-testid="info-btn"
+                    title="Información"
                   >
-                    Cómo rezar el Santo Rosario
-                  </DialogTitle>
-                  <DialogDescription className="text-[#A1A7B3]">
-                    Guía rápida para acompañar el rezo con esta aplicación.
-                  </DialogDescription>
-                </DialogHeader>
-                <div
-                  className="space-y-3 text-sm leading-relaxed text-[#F8F3E6]/90"
-                  style={{ fontFamily: "'Lora', serif" }}
-                >
-                  <p>
-                    Toca en cualquier parte de la pantalla o presiona <kbd className="px-2 py-0.5 bg-[#D4AF37]/20 rounded border border-[#D4AF37]/40 text-[#D4AF37] mx-1">Enter</kbd>
-                    para avanzar al siguiente paso del rezo.
-                  </p>
-                  <p>
-                    El rosario se compone de 5 decenas. Hoy es{" "}
-                    <span className="text-[#D4AF37]">{DAY_NAMES[today.getDay()]}</span>, día de los{" "}
-                    <span className="text-[#D4AF37]">{mysteryInfo.name}</span>.
-                  </p>
-                  <ul className="list-disc list-inside space-y-1 text-[#A1A7B3]">
-                    <li>Crucifijo → Señal de la Cruz y Credo</li>
-                    <li>Cuenta grande → Padre Nuestro</li>
-                    <li>10 cuentas pequeñas → Ave María</li>
-                    <li>Final de decena → Gloria + Oración de Fátima</li>
-                  </ul>
-                </div>
-              </DialogContent>
-            </Dialog>
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={restart}
-              className="text-[#A1A7B3] hover:text-[#D4AF37] hover:bg-white/5 rounded-full w-8 h-8 sm:w-10 sm:h-10"
-              data-testid="restart-btn"
-              title="Reiniciar"
+                    <Info className="w-4 h-4 sm:w-5 sm:h-5" />
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="bg-[#0A0E17] border-[#D4AF37]/30 text-[#F8F3E6] max-w-lg">
+                  <DialogHeader>
+                    <DialogTitle
+                      className="text-2xl text-[#D4AF37]"
+                      style={{ fontFamily: "'Cormorant Garamond', serif" }}
+                    >
+                      Cómo rezar el Santo Rosario
+                    </DialogTitle>
+                    <DialogDescription className="text-[#A1A7B3]">
+                      Guía rápida para acompañar el rezo con esta aplicación.
+                    </DialogDescription>
+                  </DialogHeader>
+                  <div
+                    className="space-y-3 text-sm leading-relaxed text-[#F8F3E6]/90"
+                    style={{ fontFamily: "'Lora', serif" }}
+                  >
+                    <p>
+                      Toca en cualquier parte de la pantalla o presiona <kbd className="px-2 py-0.5 bg-[#D4AF37]/20 rounded border border-[#D4AF37]/40 text-[#D4AF37] mx-1">Enter</kbd>
+                      para avanzar al siguiente paso del rezo.
+                    </p>
+                    <p>
+                      El rosario se compone de 5 decenas. Hoy es{" "}
+                      <span className="text-[#D4AF37]">{DAY_NAMES[today.getDay()]}</span>, día de los{" "}
+                      <span className="text-[#D4AF37]">{mysteryInfo.name}</span>.
+                    </p>
+                    <ul className="list-disc list-inside space-y-1 text-[#A1A7B3]">
+                      <li>Crucifijo → Señal de la Cruz y Credo</li>
+                      <li>Cuenta grande → Padre Nuestro</li>
+                      <li>10 cuentas pequeñas → Ave María</li>
+                      <li>Final de decena → Gloria + Oración de Fátima</li>
+                    </ul>
+                  </div>
+                </DialogContent>
+              </Dialog>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={restart}
+                className="text-[#A1A7B3] hover:text-[#D4AF37] hover:bg-white/5 rounded-full w-8 h-8 sm:w-10 sm:h-10"
+                data-testid="restart-btn"
+                title="Reiniciar"
+              >
+                <RotateCcw className="w-4 h-4 sm:w-5 sm:h-5" />
+              </Button>
+            </div>
+          </header>
+        )}
+
+        {/* Menú flotante - solo visible durante la oración */}
+        {started && !completed && (
+          <>
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                setShowMenu(!showMenu);
+              }}
+              className="fixed top-4 right-4 z-50 w-10 h-10 rounded-full bg-black/60 backdrop-blur-md border border-[#D4AF37]/30 flex items-center justify-center text-[#D4AF37] hover:bg-black/80 hover:border-[#D4AF37]/50 transition-all shadow-lg"
+              data-testid="menu-btn"
+              title="Menú"
             >
-              <RotateCcw className="w-4 h-4 sm:w-5 sm:h-5" />
-            </Button>
-          </div>
-        </header>
+              <Menu className="w-5 h-5" />
+            </button>
+
+            {showMenu && (
+              <div className="fixed top-16 right-4 z-50 bg-black/90 backdrop-blur-xl border border-[#D4AF37]/30 rounded-xl p-2 shadow-2xl animate-fade-in">
+                <div className="flex flex-col gap-1">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setMusicOn((m) => !m);
+                      setShowMenu(false);
+                    }}
+                    className="text-[#A1A7B3] hover:text-[#D4AF37] hover:bg-white/5 rounded-lg justify-start gap-3 px-3 py-2"
+                    data-testid="menu-music-btn"
+                  >
+                    {musicOn ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
+                    <span className="text-sm">{musicOn ? "Silenciar" : "Música"}</span>
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setShowMenu(false);
+                      setShowInfo(true);
+                    }}
+                    className="text-[#A1A7B3] hover:text-[#D4AF37] hover:bg-white/5 rounded-lg justify-start gap-3 px-3 py-2"
+                    data-testid="menu-info-btn"
+                  >
+                    <Info className="w-4 h-4" />
+                    <span className="text-sm">Ayuda</span>
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setShowMenu(false);
+                      restart();
+                    }}
+                    className="text-[#A1A7B3] hover:text-[#D4AF37] hover:bg-white/5 rounded-lg justify-start gap-3 px-3 py-2"
+                    data-testid="menu-restart-btn"
+                  >
+                    <RotateCcw className="w-4 h-4" />
+                    <span className="text-sm">Reiniciar</span>
+                  </Button>
+                </div>
+              </div>
+            )}
+          </>
+        )}
 
         {/* Main content */}
-        <main className="flex-1 flex flex-col items-center px-4 sm:px-6 pb-6 sm:pb-24">
+        <main className={`flex-1 flex flex-col items-center px-4 sm:px-6 ${started && !completed ? 'pb-2 pt-2' : 'pb-4 sm:pb-12'}`}>
           {!started ? (
             <WelcomeScreen
               mysteryInfo={mysteryInfo}
@@ -247,7 +316,7 @@ export default function Rosary() {
             <CompletedScreen onRestart={restart} />
           ) : (
             <div 
-              className="w-full max-w-7xl mx-auto grid lg:grid-cols-[minmax(0,420px)_1fr] gap-6 lg:gap-16 items-start lg:items-center mt-2 sm:mt-4 cursor-pointer"
+              className="w-full max-w-7xl mx-auto grid lg:grid-cols-[minmax(0,420px)_1fr] gap-3 lg:gap-16 items-start lg:items-center mt-0 sm:mt-4 cursor-pointer"
               onClick={next}
               data-testid="prayer-container"
             >
@@ -263,7 +332,7 @@ export default function Rosary() {
               </div>
 
               {/* Oración + progreso */}
-              <div className="order-1 lg:order-2 flex flex-col gap-4 sm:gap-6">
+              <div className="order-1 lg:order-2 flex flex-col gap-2 sm:gap-6">
                 <ProgressBar
                   step={stepIndex}
                   total={sequence.length}
@@ -275,6 +344,39 @@ export default function Rosary() {
             </div>
           )}
         </main>
+
+        {/* Footer */}
+        <footer className="relative z-10 py-4 sm:py-6 px-4">
+          <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4">
+            <p
+              className="text-xs sm:text-sm text-[#A1A7B3] flex items-center gap-2"
+              style={{ fontFamily: "'Lora', serif" }}
+            >
+              Hecho con <span className="text-red-400 animate-pulse">❤️</span> por{" "}
+              <span className="text-[#D4AF37]">Juanpfrancos</span>
+            </p>
+            <div className="flex items-center gap-3">
+              <a
+                href="https://github.com/juanpfrancos"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[#A1A7B3] hover:text-[#D4AF37] transition-colors"
+                title="GitHub"
+              >
+                <Github className="w-4 h-4 sm:w-5 sm:h-5" />
+              </a>
+              <a
+                href="https://www.instagram.com/juanpfrancos"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[#A1A7B3] hover:text-[#D4AF37] transition-colors"
+                title="Instagram"
+              >
+                <Instagram className="w-4 h-4 sm:w-5 sm:h-5" />
+              </a>
+            </div>
+          </div>
+        </footer>
       </div>
     </div>
   );
@@ -370,7 +472,7 @@ function ProgressBar({ step, total, currentStep, progress }) {
         : "Introducción";
 
   return (
-    <div className="flex flex-col gap-3" data-testid="progress-bar">
+    <div className="flex flex-col gap-2 sm:gap-3" data-testid="progress-bar">
       <div className="flex items-center justify-between">
         <p
           className="text-xs uppercase tracking-[0.3em] text-[#D4AF37]"
@@ -395,7 +497,7 @@ function PrayerCard({ step, fadeKey }) {
   return (
     <div
       key={fadeKey}
-      className="backdrop-blur-xl bg-black/40 border border-[#D4AF37]/20 rounded-2xl p-5 sm:p-10 min-h-[280px] sm:min-h-[300px] flex flex-col justify-center relative overflow-hidden shadow-[0_8px_40px_rgba(0,0,0,0.5)] animate-fade-in"
+      className="backdrop-blur-xl bg-black/40 border border-[#D4AF37]/20 rounded-2xl p-4 sm:p-10 min-h-[240px] sm:min-h-[300px] flex flex-col justify-center relative overflow-hidden shadow-[0_8px_40px_rgba(0,0,0,0.5)] animate-fade-in"
       data-testid="prayer-card"
     >
       {/* Esquinas decoradas */}
@@ -405,7 +507,7 @@ function PrayerCard({ step, fadeKey }) {
       <div className="absolute bottom-3 right-3 w-6 h-6 border-b border-r border-[#D4AF37]/40" />
 
       <h3
-        className="text-lg sm:text-2xl text-[#D4AF37] mb-2 text-center tracking-wide"
+        className="text-lg sm:text-2xl text-[#D4AF37] mb-1 sm:mb-2 text-center tracking-wide"
         style={{ fontFamily: "'Cormorant Garamond', serif" }}
         data-testid="prayer-title"
       >
@@ -413,7 +515,7 @@ function PrayerCard({ step, fadeKey }) {
       </h3>
       {step.subtitle && (
         <p
-          className="text-sm sm:text-base text-[#F3E5AB]/80 italic mb-4 sm:mb-5 text-center"
+          className="text-sm sm:text-base text-[#F3E5AB]/80 italic mb-3 sm:mb-5 text-center"
           style={{ fontFamily: "'Lora', serif" }}
         >
           {step.subtitle}
@@ -427,7 +529,7 @@ function PrayerCard({ step, fadeKey }) {
         {step.content}
       </p>
       {/* Indicador visual sutil para tap */}
-      <div className="mt-4 sm:mt-6 flex justify-center">
+      <div className="mt-3 sm:mt-6 flex justify-center">
         <div className="w-12 h-1 bg-[#D4AF37]/30 rounded-full animate-pulse" />
       </div>
     </div>
