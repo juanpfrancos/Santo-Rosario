@@ -1,11 +1,11 @@
 {
   "files": {
     "main.css": "/Santo-Rosario/static/css/main.03b15ad5.css",
-    "main.js": "/Santo-Rosario/static/js/main.28ea8918.js",
+    "main.js": "/Santo-Rosario/static/js/main.fb74a95b.js",
     "index.html": "/Santo-Rosario/index.html"
   },
   "entrypoints": [
     "static/css/main.03b15ad5.css",
-    "static/js/main.28ea8918.js"
+    "static/js/main.fb74a95b.js"
   ]
 }
